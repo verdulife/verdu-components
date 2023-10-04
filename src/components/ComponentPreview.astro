@@ -1,0 +1,45 @@
+---
+import Button from "@components/assets/basics/Button.astro";
+import ButtonRaw from "@components/assets/basics/Button.astro?raw";
+import Copy from "@icons/Copy.astro";
+
+import { Code } from "astro/components";
+
+let preview = false;
+---
+
+<article
+  class="relative grid w-2/3 border-2 rounded-lg place-content-center aspect-video bg-slate-950 border-slate-50/10"
+>
+  <button
+    class="absolute flex items-center gap-2 px-4 py-2 text-xs rounded-md top-2 right-2 bg-slate-50/10 backdrop-blur-sm text-slate-50/50 hover:text-slate-50"
+    data-code={ButtonRaw}
+  >
+    <Copy /> COPY
+  </button>
+  <Button />
+
+  {preview && <Code code={ButtonRaw} lang="html" wrap />}
+</article>
+
+<script>
+  const button = document.querySelector("button");
+  const code = button?.getAttribute("data-code");
+
+  async function copy() {
+    await navigator.clipboard.writeText(code || "Error");
+  }
+
+  button?.addEventListener("click", copy);
+</script>
+
+<style is:inline>
+  pre {
+    background-color: transparent !important;
+    padding: 1rem 0;
+  }
+
+  .line {
+    padding: 0 1rem;
+  }
+</style>
